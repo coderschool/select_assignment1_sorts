@@ -37,6 +37,16 @@ public class SortTestCase : XCTestCase {
         let list = [1, 2, 1]
         XCTAssertEqual(sortMethod(list), [1, 1, 2])
     }
+    
+    func testMergeSortOutPerformQuickSort() {
+        let list = [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+        XCTAssertEqual(sortMethod(list), [1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+    }
+    
+    func testQuickSortOutPerformMergeSort() {
+//        let list = [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+//        XCTAssertEqual(sortMethod(list), [1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+    }
 }
 
 func selectSort(list: [Int]) -> [Int] {
@@ -107,6 +117,56 @@ func quickSortOperate(list: [Int], start: Int, end: Int) -> [Int] {
     
     return newList
 }
+
+func mergeSort(list: [Int]) -> [Int] {
+    let count = list.count
+    
+    if count < 2 {
+        return list
+    } else {
+        let midPoint = count / 2
+        
+        
+        var firstHalf = mergeSort(Array(list[0...(midPoint-1)]))
+        var secondHalf = mergeSort(Array(list[midPoint...(count-1)]))
+        
+        var newList = [Int]()
+        
+        var i = 0
+        var j = 0
+        while (true) {
+            
+            if (i >= firstHalf.count) {
+                for k in j..<(secondHalf.count) {
+                    newList.append(secondHalf[k])
+                }
+                break;
+            }
+            
+            if (j >= secondHalf.count) {
+                for k in i..<(firstHalf.count) {
+                    newList.append(firstHalf[k])
+                }
+                break;
+            }
+            
+            if firstHalf[i] < secondHalf[j] {
+                newList.append(firstHalf[i])
+                i += 1
+                continue
+            }
+            
+            if firstHalf[i] >= secondHalf[j] {
+                newList.append(secondHalf[j])
+                j += 1
+                continue
+            }
+        }
+        
+        return newList
+    }
+}
+
 
 //SortTestCase(method: bogoSort)
 //SortTestCase(method: selectSort)
